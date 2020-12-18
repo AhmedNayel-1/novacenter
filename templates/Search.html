@@ -1,0 +1,307 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Bla
+nk Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %}  sidebar-mini sidebar-collapse {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+   <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="/static/assets/plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="/static/assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="/static/assets/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/static/assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="/static/assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <h2 class="text-center display-4">Search</h2>
+      </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="{% url 'search' %}" method="GET" value="{{request.GET.q}}">
+                      {% csrf_token %}
+                         <div class="input-group input-group-lg">
+                          {% comment %} <input class="form-control form-control-navbar" type="text" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}"> {% endcomment %}
+                               <select class="form-control form-control-navbar select2" type="text" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">
+                                  <option selected="selected">search</option>
+                                  {% for Patients in Patients %}
+                                  <option value= "{{Patients.PatientName}}">{{Patients.PatientName}}</option>
+                                  {% endfor %}
+                  
+                  </select>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-lg btn-default" name="submit" value="Search"> 
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div> 
+                         <div class="card-body">
+             {% comment %} <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Minimal</label>
+                  <select class="form-control select2" style="width: 100%;">
+                    <option selected="selected">......</option>
+                    {% for Patients in Patients %}
+                    <option value= "{{Patients.PatientName}}">{{Patients.PatientName}}</option>
+                    {% endfor %}
+                  
+                  </select> 
+ <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div> {% endcomment %}
+
+                </div>
+                <!-- /.form-group -->
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-24 offset-md-0">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col px-4">
+                                     <div>
+                                        <div class="float-right"></div>
+                                        <h3>Results for <b>{{ request.GET.q }}</b></h3>
+                                        {% comment %} <p class="mb-0">consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> {% endcomment %}
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-auto">
+                              {% if submitbutton == 'Search' and request.GET.q != '' %}
+                              {% if results %}
+                              {% comment %} <h1>Results for <b>{{ request.GET.q }}</b></h1> {% endcomment %}
+                              <br/><br/>
+                              <div>
+                               <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                  <th> Name</th>
+                                  <th> Secend Name</th>
+                                  <th> Third Name</th>
+                                  <th> Gender</th>
+                                  <th> Area</th>
+                                  <th> Mobile</th>
+                                  <th>  Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for result in results %}
+                                
+                                <tr>
+                                  <td>{{ result.PatientName }} {{ result.PatientSecondName }} {{ result.PatientSecondName }}</td>
+                                  <td>{{ result.PatientSecondName }} </td>
+                                  <td>{{ result.PatientThirdName }} </td>
+                                  <td>{{ result.Gender }}</td> 
+                                  <td>{{ result.Area }}</td>
+                                  <td>{{ result.PatientMobile1 }}</td>
+                                  <td>
+                                   <div>
+                                        <a class="btn btn-warning" href="{% url 'Patient-detail' result.id %}" target="_blank">Detail</a> 
+                                        {% comment %} <a class="btn btn-warning" href="{% url 'items-list' result.id %}" target="_blank">pos</a> {% endcomment %}
+                                        <a class="btn btn-warning" href="{% url 'items-list2' result.id %}" target="_blank">sale</a> 
+                                        <a class="btn btn-warning" href="{% url 'cashbalance' result.id %}" target="_blank">cash </a> 
+                                        <a class="btn btn-warning" href="{% url 'ballsbalance' result.id %}" target="_blank">balls</a> 
+                                        </div>
+                                  </td>      
+                  {% endfor %}
+                   </tfoot>
+                </table>
+                
+                                        {% else %}
+                                        No search results for this query
+                                        {% endif %}
+                                        {% endif %}
+                              {% comment %} </div>
+                              {% for result in results %}
+                                    <img class="img-fluid" src="/static/assets/img/photo1.png" alt="Photo" style="max-height: 160px;">
+                                </div>
+                                <div class="col px-4">
+                                    <div>
+                                     
+                                        <div class="float-right">{{ result.Birtdate }}</div>
+                                        <div>
+                                        <a class="btn btn-warning" href="{% url 'Patient-detail' result.id %}"">Detail</a> 
+                                        <a class="btn btn-warning" href="{% url 'items-list' result.id %}"">pos</a>
+                                        <a class="btn btn-warning" href="{% url 'items-list2' result.id %}"">pos2</a> 
+                                        </div>
+                                       
+                                        <h3 >{{ result.PatientName }}</h3>
+                                        <h6>{{ result.Gender }}<h6>
+                                        <h6>{{ result.Active }}<h6>
+                                        <h6>{{ result.Jop }}<h6>
+                                        <h6>{{ result.Area }}<h6>
+                                        <br/><br/>
+                                      {% endfor %}
+                                        {% else %}
+                                        No search results for this query
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+   
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Select2 -->
+  <script src="/static/assets/plugins/select2/js/select2.full.min.js"></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="/static/assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+  <!-- InputMask -->
+  <script src="/static/assets/plugins/moment/moment.min.js"></script>
+  <script src="/static/assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+  <!-- date-range-picker -->
+  <script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- bootstrap color picker -->
+  <script src="/static/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Bootstrap Switch -->
+  <script src="/static/assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <!-- Page script -->
+  <script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+
+      //Datemask dd/mm/yyyy
+      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+      //Datemask2 mm/dd/yyyy
+      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+      //Money Euro
+      $('[data-mask]').inputmask()
+
+      //Date range picker
+      $('#reservationdate').datetimepicker({
+          format: 'L'
+      });
+      //Date range picker
+      $('#reservation').daterangepicker()
+      //Date range picker with time picker
+      $('#reservationtime').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+          format: 'MM/DD/YYYY hh:mm A'
+        }
+      })
+      //Date range as a button
+      $('#daterange-btn').daterangepicker(
+        {
+          ranges   : {
+            'Today'       : [moment(), moment()],
+            'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+            'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate  : moment()
+        },
+        function (start, end) {
+          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        }
+      )
+
+      //Timepicker
+      $('#timepicker').datetimepicker({
+        format: 'LT'
+      })
+
+      //Bootstrap Duallistbox
+      $('.duallistbox').bootstrapDualListbox()
+
+      //Colorpicker
+      $('.my-colorpicker1').colorpicker()
+      //color picker with addon
+      $('.my-colorpicker2').colorpicker()
+
+      $('.my-colorpicker2').on('colorpickerChange', function(event) {
+        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+      });
+
+      $("input[data-bootstrap-switch]").each(function(){
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+      });
+
+    })
+  </script>
+
+{% endblock javascripts %}

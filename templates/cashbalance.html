@@ -1,0 +1,210 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Bla
+nk Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %}  sidebar-mini sidebar-collapse {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Cash Balance  {{Patientdata.PatientName}}</h1>
+            {% comment %} <h3 class="info-box-number text-center text-muted mb-0">{{Patientdata.PatientMobile1}} </h3>  {% endcomment %}
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              {% comment %} <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Start</li> {% endcomment %}
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      
+    
+
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Cash</span>
+                <span class="info-box-number">
+                  {{total_cash}}
+                  
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Discount</span>
+                <span class="info-box-number">{{total_Remmaining}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total required</span>
+                <span class="info-box-number">{{Total_required}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <a  href="{% url 'just_payment' %}"
+          <div class="col-12 col-sm-6 col-md-3" >
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"  ><i class="far fa-handshake"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Adjustment</span>
+                <span class="info-box-number">{{Total_required}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+        </a> 
+          <!-- /.col -->
+        </div>
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Cash</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table id="example3" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>TotalPrice</th>
+              <th>Cash</th>
+              <th>Remmaining</th>
+              
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              {% for person in cash %}    
+              
+              <td>{{person.start_date}} </td>
+              {%if person.order_type == 1 %}
+              <td>sale</td>
+              {%else%}
+              <td>payment</td>
+              {% endif %}
+
+              <td>{{person.TotalPrice}}</td>
+              <td>{{person.Cash}}</td>
+              <td>{{person.Remmaining}}</td>
+              
+            </tr>
+            {%endfor%}
+            <td colspan="2" class="border-bottom-0">Tolals</td>
+            <td>{{total_price}}</td>
+            <td>{{total_cash}}</td>
+            <td></td>
+            مطلوب :{{Total_required}}
+            </tfoot>
+          </table>
+         
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          Footer
+        </div>
+        <!-- /.card-footer-->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script>
+    $(function () {
+      $("#example3").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+      $('#example3').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+{% endblock javascripts %}

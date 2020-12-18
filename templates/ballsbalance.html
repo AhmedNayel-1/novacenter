@@ -1,0 +1,184 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Bla
+nk Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %}  sidebar-mini sidebar-collapse {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Balls Balance  {{Patientdata.PatientName}} </h1>
+           <h3 class="info-box-number text-center text-muted mb-0">{{Patientdata.PatientMobile1}} </h3> 
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              {% comment %} <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Start</li> {% endcomment %}
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid text-center">
+        <!-- Info boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-plus"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total plus balls </span>
+                <span class="info-box-number">
+                  <h4>{{total_plus_balls_in_order}}</h4>
+                  
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-user-minus"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total used ballses</span>
+                <span class="info-box-number"><h3>{{total_cut_ballses}}</h3></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-check"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Ballses for use</span>
+                <span class="info-box-number">{{total_ballses_remining}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <!-- <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">New Members</span>
+                <span class="info-box-number">2,000</span>
+              </div>
+              
+            </div>
+            
+          </div> -->
+          <!-- /.col -->
+        </div>
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Ballses</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+              <th colspan="2" class="border-bottom-0">Additive</th>
+              <th colspan="2" class="border-bottom-0">Deductible</th>
+              
+            </tr>
+            <tr>
+              <th scope="col" class="border-bottom-0">ِAdd Type</th>
+              <th scope="col" class="border-bottom-0">ballses</th>
+              <th scope="col" class="border-bottom-0">Date</th>
+              <th scope="col" class="border-bottom-0">ballses</th>
+            </tr>
+            </thead>
+            <tbody>
+              {% for order_all_ballses, event   in objects_list %}
+              <tr>
+                    
+                <td>{{order_all_ballses.order_type}}</td>
+                <td>{{order_all_ballses.balls}}</td>
+                
+                <td>{{event.start_session|date:'Y-m-d' }}</td>
+                <td>{{event.session_used_balls}}</td>
+                
+                
+                
+              </tr>
+            {% endfor %}
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          Footer
+        </div>
+        <!-- /.card-footer-->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+
+{% endblock javascripts %}

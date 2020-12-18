@@ -1,0 +1,224 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Regestrations Form{% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+    
+{% endblock stylesheets %}
+
+{% block content %}    
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Regestrations Form</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Regestrations Form</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">New Clinent</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="POST" >
+              {% csrf_token %}
+                <div class="card-body">
+                <div class="form-group">
+                 <div class="row">
+                 <div class="col-md-6">
+                    {% comment %} <label for="name">Clinent Name</label>
+                    {{ form.PatientName|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4">
+                    <label for="name">Clinent Name</label>
+                    {{ form.Gender|as_crispy_field }}
+                  </div>
+                  
+                  </div>
+                  </div>
+                 <div class="row">
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Mobile Number 1</label>
+                     {{ form.PatientMobile1|as_crispy_field }}
+                  </div></div>
+                  <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Mobile Number 2</label>
+                     {{ form.PatientMobile2|as_crispy_field }}
+                  </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Where did you know us?</label>
+                     {{ form.ComeFrom|as_crispy_field }}
+                  </div></div>
+                  <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Who knew us?</label>
+                     {{ form.PatientFfriend|as_crispy_field }}
+                  </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">ِِAddress</label>
+                     {{ form.Birtdate|as_crispy_field }}
+                  </div></div>
+                  <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Area</label>
+                     {{ form.PatientCode|as_crispy_field }}
+                  </div>
+                  </div>
+                  </div>
+                   <div class="row">
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Work Field</label>
+                     {{ form.Jop|as_crispy_field }}
+                  </div></div>
+                  <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Work Place</label>
+                    {{ form.Area|as_crispy_field }}
+                  </div>
+                  </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="name">Clinent Name</label>
+                    {{ form.Active|as_crispy_field }}
+                  </div>
+
+                     <div class="col-md-2">
+                    <label >Clinent Packages</label>
+                    {{ form.PatientPackages|as_crispy_field }}
+                  </div> {% endcomment %}
+                  {{form|crispy}}
+                  
+                   <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </div>
+                <!-- /.card-body -->
+
+                
+              </form>
+            </div></div></div>
+            <!-- /.card -->
+            <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Clinic Data</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+         <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>JopName</th>
+                   
+                    
+
+                    
+                    <th>statu</th>
+                    <th>Change statu</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for obj in objects %}
+                  <tr>
+                    <td>{{obj.JopName}}</td>
+
+
+                    
+                      {% if obj.Active == True %}
+                            <td class="p-3 mb-2 bg-success text-white" >Active </span></td>
+
+                            {% else %}
+                            <td class="p-3 mb-2 bg-danger text-white">Inactive </td>
+                            {% endif %}
+                            <td><a class="btn btn-warning" href="{% url 'onof-job'  obj.id %}">Change</a> </td>
+                            
+                        </tr>
+                   
+                      {% comment %} {% if obj.Active == True %} 
+                    <td class="bg-gradient-green">Active</td>
+                    {% else %}
+                    <td>Inactive</td>>
+                    {% endif %}
+
+                  </tr>{% endcomment %}
+                  {% endfor %} 
+                 
+                  </tfoot>
+                </table>
+        </div>
+        <!-- /.card-body -->
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- bs-custom-file-input -->
+  <script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+  </script>
+
+
+
+  
+
+{% endblock javascripts %}

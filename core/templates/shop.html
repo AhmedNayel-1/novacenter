@@ -1,0 +1,214 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Gallery {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %}  sidebar-mini sidebar-collapse{% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ekko Lightbox -->
+  <link rel="stylesheet" href="/static/assets/plugins/ekko-lightbox/ekko-lightbox.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>POS Terminal</h1>  <h1>{{Patientdata.PatientName}}</h1> <h1>{{Patientdata.id}}</h1> 
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">POS Terminal</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-4">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h4 class="card-title">Services</h4>
+              </div>
+              <div class="card-body">
+                <div>
+                  <div class="btn-group w-100 mb-2">
+                    <a class="btn btn-info active" href="javascript:void(0)" data-filter="all"> All items </a>
+                    <a class="btn btn-info" href="javascript:void(0)" data-filter="1"> Leaser Packdgs</a>
+                    <a class="btn btn-info" href="javascript:void(0)" data-filter="2"> Dermal Service</a>
+                    {% comment %} <a class="btn btn-info" href="javascript:void(0)" data-filter="3"> Category 3 (COLORED) </a>
+                    <a class="btn btn-info" href="javascript:void(0)" data-filter="4"> Category 4 (COLORED, BLACK) </a> {% endcomment %}
+                  </div>
+                  <div class="mb-2">
+                    <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle items </a>
+                    <div class="float-right">
+                      <select class="custom-select" style="width: auto;" data-sortOrder>
+                        <option value="index"> Sort by Position </option>
+                        <option value="sortData"> Sort by Custom Data </option>
+                      </select>
+                      <div class="btn-group">
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascending </a>
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descending </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="filter-container p-0 row">
+                  {% for item in cat1 %}
+                    <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
+                      <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox" data-title="sample 1 - white">
+                        <img src="https://via.placeholder.com/300/FFFFFF?text=1" class="img-fluid mb-2" alt="white sample"/>
+                      </a>
+                       
+                        <a href="{% url 'add-to-cart' item.id  Patientdata.id %}" class="btn btn-block btn-default btn-lg" style="margin: 2px;">Add</a> 
+                    </div>
+                    {% endfor %}
+                    {% for item in cat2 %}
+                    <div class="filtr-item col-sm-2" data-category="2" data-sort="black sample">
+                      <a href="https://via.placeholder.com/1200/000000.png?text=2" data-toggle="lightbox" data-title="sample 2 - black">
+                        <img src="https://via.placeholder.com/300/000000?text=2" class="img-fluid mb-2" alt="black sample"/>
+                      </a>
+                          <a href="{% url 'add-to-cart' id=item.id pid=Patientdata.id %}" class="btn btn-block btn-default btn-lg" style="margin: 2px;">Add</a> 
+                    </div>
+                    {% endfor %}
+                   
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h4 class="card-title">clinet orders</h4>
+              </div>
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Product Name</th>
+                      <th>Price</th>
+                      <th>Qty</th>
+                      <th>Total Price</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {% for order_item in object %}
+                   <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            
+            <td>{{ order_item.item.title }}</td>
+            <td>{{ order_item.item.price }}</td>
+              <td>
+            	{% comment %} <a href="{% url 'remove-single-item-from-cart' id=order_item.item.id pid=Patientdata.id %}"><i class="fas fa-minus mr-3"></i></a> {% endcomment %}
+            	{{ order_item.quantity }}
+            	 <a href="{% url 'add-to-cart' id=order_item.item.id pid=Patientdata.id %}"><i class="fas fa-plus ml-3"></i></a> 
+            </td>  
+            <td>
+              {% if order_item.item.discount_price %}
+                  ${{ order_item.get_total_discount_item_price}}
+                  <span class="badge badge-primary">  Saving ${{ order_item.get_amount_saved }}</span>
+              {% else %}
+                  ${{ order_item.get_total_item_price}}
+              {% endif %}
+              <a style="color: red" href="{% url 'remove-from-cart' id=order_item.item.id pid=Patientdata.id %}"> 
+              	<i class="fas fa-trash float-right"></i>
+              </a> 
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+			<td colspan="5">Your cart is empty</td>
+          </tr>
+        </tbody>
+        {% endfor %}
+        {% if object.coupon %}
+        <tr>
+          <td colspan="5"><b>Coupon : </b></td>
+          <td>- {{ object.coupon.amount }}</td>
+        </tr>
+        {% endif%}
+        {% if object.get_total %}
+        <tr>
+        	<td colspan="4"><b>Order Total : </b></td>
+        	<td><b>LE{{ object.get_total }}</b></td>
+        </tr>
+        <tr>
+        	<td colspan="5">
+        		<a href="/checkout" class="btn btn-warning float-right ml-2">Checkout</a>
+        		<a href="/" class="btn btn-primary float-right">Continue Shopping</a>
+
+        	</td>
+        </tr>
+        {% endif %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery UI -->
+  <script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Ekko Lightbox -->
+  <script src="/static/assets/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <!-- Filterizr-->
+  <script src="/static/assets/plugins/filterizr/jquery.filterizr.min.js"></script>
+  <!-- Page specific script -->
+  <script>
+    $(function () {
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+
+      $('.filter-container').filterizr({gutterPixels: 3});
+      $('.btn[data-filter]').on('click', function() {
+        $('.btn[data-filter]').removeClass('active');
+        $(this).addClass('active');
+      });
+    })
+  </script>
+
+{% endblock javascripts %}

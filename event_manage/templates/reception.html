@@ -1,0 +1,401 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI General {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini sidebar-collapse {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+  <style>
+    .color-palette {
+      height: 35px;
+      line-height: 35px;
+      text-align: right;
+      padding-right: .75rem;
+    }
+
+    .color-palette.disabled {
+      text-align: center;
+      padding-right: 0;
+      display: block;
+    }
+
+    .color-palette-set {
+      margin-bottom: 15px;
+    }
+
+    .color-palette span {
+      display: none;
+      font-size: 12px;
+    }
+
+    .color-palette:hover span {
+      display: block;
+    }
+
+    .color-palette.disabled span {
+      display: block;
+      text-align: left;
+      padding-left: .75rem;
+    }
+
+    .color-palette-box h4 {
+      position: absolute;
+      left: 1.25rem;
+      margin-top: .75rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      display: block;
+      z-index: 7;
+    }
+  </style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Inline Charts</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Inline Charts</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+       
+        <!-- END ALERTS AND CALLOUTS -->
+        <h5 class="mt-4 mb-2">Tabs in Cards</h5>
+
+        <div class="row">
+          <div class="col-12">
+            <!-- Custom Tabs -->
+            <div class="card">
+              <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Today</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab1">Reservations</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab2">arrivers</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab3">sessions</a></li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                      Dropdown <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" tabindex="-1" href="#">Action</a>
+                      <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
+                      <a class="dropdown-item" tabindex="-1" href="#">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" tabindex="-1" href="#">Separated link</a>
+                    </div>
+                  </li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_1">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th> Name</th>
+                        <th>From</th>
+                        <th>To</th>             
+                        <th>statu</th>
+                        <th>Change statu</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for obj in reserv_today %}
+                      <tr>
+                        <td>{{obj.event_name}}</td>
+                        <td>{{obj.start_date}}</td>
+                        <td>{{obj.end_date}}</td>
+                          {% if obj.arrive == True %}
+                                <td class="p-3 mb-2 bg-success text-white" >Active </span></td>
+    
+                                {% else %}
+                                <td class="p-3 mb-2 bg-danger text-white">Inactive </td>
+                                {% endif %}
+                                <td><a class="btn btn-warning" href="{% url 'event_manage:onofarrive'  obj.event_id %}">Change</a> </td>
+                                
+                            </tr>
+                       
+                          {% comment %} {% if obj.Active == True %} 
+                        <td class="bg-gradient-green">Active</td>
+                        {% else %}
+                        <td>Inactive</td>>
+                        {% endif %}
+    
+                      </tr>{% endcomment %}
+                      {% endfor %} 
+                     
+                      </tfoot>
+                    </table>
+            </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_2">
+                    <table  class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th> Name</th>
+                        <th>From</th>
+                        <th>To</th>             
+                        
+                        <th>Change statu</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for obj in reserv_arrive %}
+                      <tr>
+                        <td>{{obj.event_name}}</td>
+                        <td>{{obj.start_date}}</td>
+                        <td>{{obj.end_date|time }}</td>
+                          <!-- {% if obj.Active == True %}
+                                <td class="p-3 mb-2 bg-success text-white" >Active </span></td>
+    
+                                {% else %}
+                                <td class="p-3 mb-2 bg-danger text-white">Inactive </td>
+                                {% endif %} -->
+                                <td><a class="btn btn-warning" href="{% url 'event_manage:onofstart'  obj.event_id %}">Change</a> </td>
+                                
+                            </tr>
+                       
+                          {% comment %} {% if obj.Active == True %} 
+                        <td class="bg-gradient-green">Active</td>
+                        {% else %}
+                        <td>Inactive</td>>
+                        {% endif %}
+    
+                      </tr>{% endcomment %}
+                      {% endfor %} 
+                     
+                      </tfoot>
+                    </table>
+            </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_3">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th> Name</th>
+                        <th>From</th>
+                        <th>To</th>             
+                        <th>statu</th>
+                        <th>Change statu</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for obj in reserv_start %}
+                      <tr>
+                        <td>{{obj.event_name}}</td>
+                        <td>{{obj.start_date}}</td>
+                        <td>{{obj.end_date}}</td>
+                          {% if obj.arrive == True %}
+                                <td class="p-3 mb-2 bg-success text-white" >Active </span></td>
+    
+                                {% else %}
+                                <td class="p-3 mb-2 bg-danger text-white">Inactive </td>
+                                {% endif %}
+                                <td><a class="btn btn-warning" href="">Change</a> </td>
+                                
+                            </tr>
+                       
+                          {% comment %} {% if obj.Active == True %} 
+                        <td class="bg-gradient-green">Active</td>
+                        {% else %}
+                        <td>Inactive</td>>
+                        {% endif %}
+    
+                      </tr>{% endcomment %}
+                      {% endfor %} 
+                     
+                      </tfoot>
+                    </table>
+                </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">
+                        <i class="fas fa-text-width"></i>
+                        Unordered List
+                      </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                          <th> Name</th>
+                          <th>From</th>
+                          <th>To</th>             
+                          <th>statu</th>
+                          
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in reserv_today %}
+                        <tr>
+                          <td>{{obj.event_name}}</td>
+                          <td>{{obj.start_date|time}}</td>
+                          <td>{{obj.end_date}}</td>
+                            <!-- {% if obj.arrive == True %}
+                                  <td class="p-3 mb-2 bg-success text-white" >Active </span></td>
+      
+                                  {% else %}
+                                  <td class="p-3 mb-2 bg-danger text-white">Inactive </td>
+                                  {% endif %} -->
+                                  <td><a class="btn btn-warning" href="{% url 'event_manage:onofarrive'  obj.event_id %}">Change</a> </td>
+                                  
+                              </tr>
+                         
+                            {% comment %} {% if obj.Active == True %} 
+                          <td class="bg-gradient-green">Active</td>
+                          {% else %}
+                          <td>Inactive</td>>
+                          {% endif %}
+      
+                        </tr>{% endcomment %}
+                        {% endfor %} 
+                       
+                        </tfoot>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- ./col -->
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">
+                        <i class="fas fa-text-width"></i>
+                        Ordered Lists
+                      </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <ol>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Consectetur adipiscing elit</li>
+                        <li>Integer molestie lorem at massa</li>
+                        <li>Facilisis in pretium nisl aliquet</li>
+                        <li>Nulla volutpat aliquam velit
+                          <ol>
+                            <li>Phasellus iaculis neque</li>
+                            <li>Purus sodales ultricies</li>
+                            <li>Vestibulum laoreet porttitor sem</li>
+                            <li>Ac tristique libero volutpat at</li>
+                          </ol>
+                        </li>
+                        <li>Faucibus porta lacus fringilla vel</li>
+                        <li>Aenean sit amet erat nunc</li>
+                        <li>Eget porttitor lorem</li>
+                      </ol>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- ./col -->
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">
+                        <i class="fas fa-text-width"></i>
+                        Unstyled List
+                      </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <ul class="list-unstyled">
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Consectetur adipiscing elit</li>
+                        <li>Integer molestie lorem at massa</li>
+                        <li>Facilisis in pretium nisl aliquet</li>
+                        <li>Nulla volutpat aliquam velit
+                          <ul>
+                            <li>Phasellus iaculis neque</li>
+                            <li>Purus sodales ultricies</li>
+                            <li>Vestibulum laoreet porttitor sem</li>
+                            <li>Ac tristique libero volutpat at</li>
+                          </ul>
+                        </li>
+                        <li>Faucibus porta lacus fringilla vel</li>
+                        <li>Aenean sit amet erat nunc</li>
+                        <li>Eget porttitor lorem</li>
+                      </ul>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- ./col -->
+              </div>
+            </div>
+            <!-- ./card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- END CUSTOM TABS -->
+        <!-- START PROGRESS BARS -->
+        
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- END TYPOGRAPHY -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+
+{% endblock javascripts %}

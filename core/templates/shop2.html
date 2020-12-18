@@ -1,0 +1,421 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Gallery {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini sidebar-collapse {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<style type="text/css">
+  #regiration_form fieldset:not(:first-of-type) {
+    display: none;
+  }
+  </style>
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+  
+  
+
+
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ekko Lightbox -->
+  <link rel="stylesheet" href="/static/assets/plugins/ekko-lightbox/ekko-lightbox.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">POS Terminal</li>
+            </ol>
+          </div>
+            <div class="col-24 col-sm-24">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <h3 class="info-box-text text-center text-muted"> {{Patientdata.PatientName}}</h4>
+                      <span class="info-box-number text-center text-muted mb-0">{{Patientdata.PatientMobile1}}</span>
+                    </div>
+                  </div></div>
+                  
+          </div>
+          
+    
+          <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+              <div class="row">
+                <div class="col-12 col-sm-4">
+                  <!-- <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">عدد البلصات</span>
+                      <span class="info-box-number text-center text-muted mb-0">{{Patientdata.BallceBalance}}</span>
+                    </div>
+                  </div> -->
+                </div>
+                <!-- <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">البلصات المتبقيه</span>
+                      <span class="info-box-number text-center text-muted mb-0">{{Patientdata.RemmainingBalance}}</span>
+                    </div>
+                  </div> -->
+                </div>
+                <!-- <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">المبلغ</span>
+                      <span class="info-box-number text-center text-muted mb-0">{{Patientdata.AmountBalance}}</span>
+                    </div>
+                  </div> -->
+                </div>
+                
+                </div>
+                
+              </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-4">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h4 class="card-title">Services</h4>
+              </div>
+              <div class="card-body">
+                <div>
+                  <div class="btn-group w-100 mb-2">
+                    {% comment %} <a class="btn btn-info active" href="javascript:void(0)" data-filter="all"> All items </a>
+                    <a class="btn btn-info" href="javascript:void(0)" data-filter="1"> Leaser Packdgs</a>
+                    <a class="btn btn-info" href="javascript:void(0)" data-filter="2"> Dermal Service</a> {% endcomment %}
+                    {% comment %} <a class="btn btn-info" href="javascript:void(0)" data-filter="3"> Category 3 (COLORED) </a>
+                    <a class="btn btn-info" href="javascript:void(0)" data-filter="4"> Category 4 (COLORED, BLACK) </a> {% endcomment %}
+                  </div>
+                  <div class="mb-2">
+                    {% comment %} <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle items </a> {% endcomment %}
+                    <div class="float-right">
+                      {% comment %} <select class="custom-select" style="width: auto;" data-sortOrder>
+                        <option value="index"> Sort by Position </option>
+                        <option value="sortData"> Sort by Custom Data </option>
+                      </select> {% endcomment %}
+                      {% comment %} <div class="btn-group">
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascending </a>
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descending </a>
+                      </div> {% endcomment %}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="filter-container p-0 row">
+                 
+                     <table id="example1" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>title</th>
+                    <th>price</th>
+                    <th>category</th>
+                   
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {% for item in cat_all %}
+                  <tr>
+                    <td><a href="{% url 'add-to-cart' id=item.id pid=Patientdata.id %}"> {{item.title}}</a> </td>
+                    <td>{{item.price}} </td>
+                    <td>{{item.category}} </td>
+                  {% endfor %}
+                   </tfoot>
+                </table>
+                   
+                  <!-- <table id="example1" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>title</th>
+                    <th>price</th>
+                   
+                   
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {% for item in cat2 %}
+                  <tr>
+                    <td><a href="{% url 'add-to-cart' id=item.id pid=Patientdata.id %}"> {{item.title}}</a> </td>
+                    <td>{{item.price}}</td>
+                    
+                  
+                  {% endfor %}
+                   </tfoot>
+                </table> -->
+                   
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h4 class="card-title">clinet orders</h4>
+              </div>
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th> Name</th>
+                      <th> Category</th>
+                      <th>Price</th>
+                      <th>Balls</th>
+                      <th>Qty</th>                      
+                      <th>Total Price</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for order_item in object.items.all %}
+                   <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            
+            <td>{{ order_item.item.title }}</td>
+            <td>{{ order_item.item.category.title }}</td>
+            <td>{{ order_item.price }}</td>
+            {% if order_item.item.CountBalces != 0 %}
+            <td>{{ order_item.item.CountBalces |floatformat:0 }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td> <a href="{% url 'remove-single-item-from-cart' order_item.item.id  Patientdata.id %}"><i class="fas fa-minus mr-3"></i></a>
+              {{ order_item.quantity }}
+              <a href="{% url 'add-to-cart' order_item.item.id Patientdata.id %}"><i class="fas fa-plus ml-3"></i></a></td>
+            <td>
+              {% if order_item.item.discount_price %}
+                  ${{ order_item.get_total_discount_item_price}}
+                  <span class="badge badge-primary">  Saving ${{ order_item.get_amount_saved }}</span>
+              {% else %}
+                  ${{ order_item.get_total_item_price}}
+              {% endif %}
+              <div>
+                <a style="color: red" href="{% url 'remove-from-cart' order_item.item.id Patientdata.id %}" type="button"  class="card-link-secondary small text-uppercase mr-3"><i
+                    class="fas fa-trash-alt mr-1"></i>  حذف الخدمه </a>
+                
+              </div> 
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+			<td colspan="5">Your cart is empty</td>
+          </tr>
+        </tbody>
+        {% endfor %}
+        <tr>
+        	<td colspan="4"><b>Order Total : </b></td>
+        	<td><b>LE{{ object.get_total }}</b></td>
+        </tr>
+        {% if object.Discount %}
+        <tr>
+          <td colspan="4" class="text-success"><b>Discount : </b></td>
+          <td class="text-success"><b>{{ object.Discount }}</b></td>
+        </tr>
+        {% endif%}
+        <tr>
+        	<td colspan="4"><b>Net Total : </b></td>
+        	<td><b>LE{{ object.Net }}</b></td>
+        </tr>
+        {% if object.get_total %}
+        
+        <tr>
+        	<td colspan="5">
+            <form method="POST" action="" >
+              {% csrf_token %}
+              <div class="input-group">
+                
+                {{ form.Discount }}
+                
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Payment</button>
+              </div>
+            </form>
+            
+        		<!-- <a href="/checkout" class="btn btn-warning float-right ml-2">Checkout</a>
+        		<a href="/" class="btn btn-primary float-right">Continue Shopping</a>
+            <a href="{% url 'edit'  Patientdata.id %}" class="btn btn-primary float-right">Continue Shopping</a>edit -->
+          </td>
+        <td>
+            
+        	</td>
+        </tr>
+        {% endif %}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    
+  {% comment %} </div>
+  <!-- /.content-wrapper -->
+  <div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Default Modal</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div> {% endcomment %}
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery UI -->
+  <script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Ekko Lightbox -->
+  <script src="/static/assets/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <!-- Filterizr-->
+  <script src="/static/assets/plugins/filterizr/jquery.filterizr.min.js"></script>
+  <!-- Page specific script -->
+  <script>
+    $(function () {
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+
+      $('.filter-container').filterizr({gutterPixels: 3});
+      $('.btn[data-filter]').on('click', function() {
+        $('.btn[data-filter]').removeClass('active');
+        $(this).addClass('active');
+      });
+    })
+  </script>
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function(){
+  var current = 1,current_step,next_step,steps;
+  steps = $("fieldset").length;
+  $(".next").click(function(){
+    current_step = $(this).parent();
+    next_step = $(this).parent().next();
+    next_step.show();
+    current_step.hide();
+    setProgressBar(++current);
+  });
+  $(".previous").click(function(){
+    current_step = $(this).parent();
+    next_step = $(this).parent().prev();
+    next_step.show();
+    current_step.hide();
+    setProgressBar(--current);
+  });
+  setProgressBar(current);
+  // Change progress bar action
+  function setProgressBar(curStep){
+    var percent = parseFloat(100 / steps) * curStep;
+    percent = percent.toFixed();
+    $(".progress-bar")
+      .css("width",percent+"%")
+      .html(percent+"%");   
+  }
+});
+</script>
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <!-- page script -->
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "paging": false,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false,
+        "responsive": false,
+      });
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+{% endblock javascripts %}

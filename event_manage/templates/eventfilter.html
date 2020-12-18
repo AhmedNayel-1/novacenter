@@ -1,0 +1,151 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container">
+  	<!-- <div class="row" id="search">
+          <form id="search-form" action="" method="get" enctype="multipart/form-data">
+            <div class="row" id="filter"></div>
+  			<div class="form-group col-xs-4">
+  				<input class="form-control"  name="start" type="text" placeholder="Search" />
+              </div>
+              <div class="form-group col-xs-4">
+                <input class="form-control"  name="start" type="text" placeholder="Search" />
+            </div>
+  			<div class="form-group col-xs-3">
+  				<button type="submit" class="btn btn-block btn-primary">Search</button>
+  			</div>
+  		</form>
+      </div> -->
+      
+  	<div class="row" id="filter">
+  		<form method="GET">
+  			<div class="form-group col-sm-3 col-xs-6">
+                <input class="form-control"  name="start" type="text" placeholder="Search" />
+  			</div>
+  			<div class="form-group col-sm-3 col-xs-6">
+                <input class="form-control"  name="end" type="text" placeholder="Search" />
+  			</div>
+  			<div class="form-group col-sm-3 col-xs-6">
+                <select name="doctor" class="form-control select2"   >
+                    {% for item in DoctorIns%}
+                    <option value={{item.pk}}>{{item.DocName}}</option>
+                    {%endfor%}
+                  </select>
+  			</div>
+  			<div class="form-group col-sm-3 col-xs-6">
+                <select name="events" class="form-control select2"   >
+                    {% for item in events_type%}
+                    <option value={{item.pk}}>{{item.status}}</option>
+                    {%endfor%}
+                  </select>
+  			</div>
+  		</form>
+  	</div>
+  	<div class="row" id="products">
+
+  	</div>
+  </div>
+
+  {% if submitbutton == 'Search' and request.GET.q != '' %}
+  {% if results %}
+  {% comment %} <h1>Results for <b>{{ request.GET.q }}</b></h1> {% endcomment %}
+  <br/><br/>
+  <div>
+   <table id="example2" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th> Name</th>
+      <th> Secend Name</th>
+      <th> Third Name</th>
+      <th> Gender</th>
+      <th> Area</th>
+      <th> Mobile</th>
+      <th>  Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+    
+    <tr>
+      <td>{{ result.PatientName }} {{ result.PatientSecondName }} {{ result.PatientSecondName }}</td>
+      <td>{{ result.PatientSecondName }} </td>
+      <td>{{ result.PatientThirdName }} </td>
+      <td>{{ result.Gender }}</td> 
+      <td>{{ result.Area }}</td>
+      <td>{{ result.PatientMobile1 }}</td>
+      <td>
+            
+{% endfor %}
+</tfoot>
+</table>
+
+            {% else %}
+            No search results for this query
+            {% endif %}
+            {% endif %}
+<div class="container">
+  <h2>Filterable Table</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr>
+        <td>zai</td>
+        <td>djafar</td>
+        <td>xx@gmail.com</td>
+      </tr>
+      <tr>
+        <td>nia</td>
+        <td>djafar</td>
+        <td>xx@gmail.com</td>
+      </tr>
+      <tr>
+        <td>jehan</td>
+        <td>djafar</td>
+        <td>xx@gmail.com</td>
+      </tr>
+      <tr>
+        <td>kita</td>
+        <td>semua</td>
+        <td>xx@keluarga.com</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Note that we start the search in tbody, to prevent filtering the table headers.</p>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+</body>
+</html>
